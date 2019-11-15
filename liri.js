@@ -29,10 +29,19 @@ function whatCommand(search, term) {
       break;
   }
 }
+//Title casing the titles with this function
+String.prototype.toProperCase = function() {
+  return this.replace(/\w\S*/g, function(txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+};
 
 whatCommand(search, term);
 
 function getBand() {
+  if (!term) {
+    term = "Tennis";
+  }
   console.log("---- Searching for the next available show ----");
   var artist = term;
   var URL =
@@ -58,7 +67,7 @@ function getBand() {
         divider +
           "          My Band        \n\n" +
           "Artist of choice: " +
-          artist.toUpperCase() +
+          artist.toProperCase() +
           "\n" +
           "Venue: " +
           venue +
@@ -106,30 +115,30 @@ function spotifyMe() {
   }
   spotify.search({ type: "track", query: term, limit: 1 }, function(
     error,
-    data
+    response
   ) {
     if (error) throw error;
     var song = term;
     var divider = "\n------------------------------------------------\n\n";
-    var spotifyArr = data.tracks.items;
+    var spotifyArr = response.tracks.items;
     for (i = 0; i < spotifyArr.length; i++) {
       console.log(
         divider +
           "          My Song        \n\n" +
           "Song of choice: " +
-          data.tracks.items[i].name +
+          response.tracks.items[i].name +
           "\n" +
           "Artist: " +
-          data.tracks.items[i].album.artists[0].name +
+          response.tracks.items[i].album.artists[0].name +
           "\n" +
           "Album: " +
-          data.tracks.items[i].album.name +
+          response.tracks.items[i].album.name +
           "\n" +
           "Spotify Preview: " +
-          data.tracks.items[i].preview_url +
+          response.tracks.items[i].preview_url +
           "\n" +
           "Spotify Link: " +
-          data.tracks.items[i].external_urls.spotify +
+          response.tracks.items[i].external_urls.spotify +
           "\n" +
           divider
       );
@@ -138,6 +147,9 @@ function spotifyMe() {
 }
 
 function movieMe() {
+  if (!term) {
+    term = "remember the titans";
+  }
   axios
     .get("http://www.omdbapi.com/?t=" + term + "&y=&plot=short&apikey=trilogy")
     .then(function(response) {
@@ -155,7 +167,7 @@ function movieMe() {
         divider +
           "          My Movie        \n\n" +
           "Movie of choice: " +
-          movie.toUpperCase() +
+          movie.toProperCase() +
           "\n" +
           "Year movie came out: " +
           year +
@@ -204,9 +216,9 @@ function movieMe() {
 }
 
 function doIt() {
-  fs.readFile("random.txt", "UTF-8", function(error, data) {
+  fs.readFile("random.txt", "UTF-8", function(error, response) {
     if (error) throw error;
-    var dataArr = data.split(",");
+    var dataArr = response.split(",");
     search = dataArr[0];
     term = dataArr[1];
     whatCommand(search, term);
