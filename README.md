@@ -5,7 +5,7 @@ In this assignment I was tasked with the problem of creating a LIRI Bot. Similar
 
 
 ### Gif Of The App In Action
-![](lirigif.gif)
+![Alt Text](https://media.giphy.com/media/ehsvjXOyz42odZwTij/giphy.gif)
 ### Technologies Used
 * JavaScript
 * Node.js
